@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <% if(locals.user == undefined) {%>
+        <nav>
+            <a href="/log-in">Log in</a>
+            <a href="/sign-up">Sign up</a>
+        </nav>
+        <h1>You are not authenticated</h1>
+    <% } else { %> 
+        <nav>
+            <a href="/log-out">Log out</a>
+        </nav>
+    <% } %>
+</body>
+</html>
