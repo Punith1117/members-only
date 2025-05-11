@@ -41,6 +41,15 @@ passport.deserializeUser(async (id, done) => {
     }
 })
 
+app.get('/log-out', (req, res, next) => {
+    req.logout(err => {
+        if (err) {
+            return next(err)
+        }
+        res.redirect('/')
+    })
+})
+
 app.post('/sign-up', async (req, res, next) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
