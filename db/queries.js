@@ -18,9 +18,15 @@ async function addMessage(message, date_time, user_id) {
     await pool.query('INSERT INTO messages (message, sent_at, user_id) VALUES ($1, $2, $3);', [message, date_time, user_id])
 }
 
+async function getAllMessages() {
+    const { rows } = await pool.query('SELECT * FROM messages;')
+    return rows
+}
+
 module.exports = {
     addUser,
     getUserByUsername,
     getUserById, 
-    addMessage
+    addMessage,
+    getAllMessages
 }
