@@ -4,10 +4,16 @@ const bcrypt = require('bcryptjs')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const dayjs = require('dayjs')
+const utc = require('dayjs/plugin/utc')
+const timezone = require('dayjs/plugin/timezone')
 const db = require('./db/queries')
 const path = require('node:path')
+const { isAuthenticated } = require('./middleware')
 
 const app = express()
+dayjs.extend(utc)
+dayjs.extend(timezone)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: true}))
@@ -38,6 +44,16 @@ passport.deserializeUser(async (id, done) => {
         done(null, user)
     } catch(err) {
         done(err)
+    }
+})
+
+app.post('/send-message', isAuthenticated, async (req, res, next) => {
+    try {
+        const date_time = dayjs().utc().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
+        await db.addMessage(req.body.message, date_time, req.user.id)
+        res.redirect('/')
+    } catch(err) {
+        next(err)
     }
 })
 
