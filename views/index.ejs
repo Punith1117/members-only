@@ -6,7 +6,7 @@
     <title>Index</title>
 </head>
 <body>
-    <% if(locals.user == undefined) {%>
+    <% if(isAuthenticated != true) {%>
         <nav>
             <a href="/log-in">Log in</a>
             <a href="/sign-up">Sign up</a>
@@ -16,6 +16,11 @@
         <nav>
             <a href="/log-out">Log out</a>
         </nav>
+        <h1>Hi, <%= username %></h1>
+        <form action="/send-message" method="post">
+            <textarea name="message" placeholder="Type here..."></textarea>
+            <button type="submit">Send</button>
+        </form>
     <% } %>
 </body>
 </html>

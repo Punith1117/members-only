@@ -75,7 +75,7 @@ app.get('/log-in', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('index', {user: req.user})
+    res.render('index', {isAuthenticated: req.isAuthenticated(), username: req.user?.username})
 })
 
 app.use((err, req, res, next) => {
