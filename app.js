@@ -90,8 +90,13 @@ app.get('/log-in', (req, res) => {
     res.render('log-in')
 })
 
-app.get('/', (req, res) => {
-    res.render('index', {isAuthenticated: req.isAuthenticated(), username: req.user?.username})
+app.get('/', async (req, res) => {
+    const messages = await db.getAllMessages()
+    res.render('index', {
+        isAuthenticated: req.isAuthenticated(),
+        username: req.user?.username,
+        messages: messages
+    })
 })
 
 app.use((err, req, res, next) => {

@@ -22,5 +22,16 @@
             <button type="submit">Send</button>
         </form>
     <% } %>
+    <ul>
+        <% locals.messages.forEach(message => { %>
+            <li>
+                <%= message.message %>
+            </li>
+            <div>
+                <p>YYYY-MM-DD HH:mm:ss</p>
+                <p>username</p>
+            </div>
+        <% }) %>
+    </ul>
 </body>
 </html>
