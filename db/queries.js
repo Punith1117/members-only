@@ -1,3 +1,4 @@
+const { decodeBase64 } = require('bcryptjs')
 const pool = require('./pool')
 
 async function addUser(username, password) {
@@ -23,10 +24,15 @@ async function getAllMessages() {
     return rows
 }
 
+async function addRole(username, role) {
+    await pool.query('UPDATE users SET role_id = (SELECT id FROM roles WHERE name = $1) WHERE username = $2;', [role, username])
+}
+
 module.exports = {
     addUser,
     getUserByUsername,
     getUserById, 
     addMessage,
-    getAllMessages
+    getAllMessages,
+    addRole
 }
