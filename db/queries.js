@@ -6,12 +6,12 @@ async function addUser(username, password) {
 }
 
 async function getUserByUsername(username) {
-    const { rows } = await pool.query('SELECT users.id, username, password, name FROM users LEFT JOIN roles ON roles.id = users.role_id WHERE username = $1', [username])
+    const { rows } = await pool.query('SELECT users.id, username, password, name AS role FROM users LEFT JOIN roles ON roles.id = users.role_id WHERE username = $1', [username])
     return rows[0]
 }
 
 async function getUserById(id) {
-    const { rows } = await pool.query('SELECT users.id, username, password, name FROM users LEFT JOIN roles ON roles.id = users.role_id WHERE users.id = $1;', [id])
+    const { rows } = await pool.query('SELECT users.id, username, password, name AS role FROM users LEFT JOIN roles ON roles.id = users.role_id WHERE users.id = $1;', [id])
     return rows[0]
 }
 
