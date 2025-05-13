@@ -19,8 +19,13 @@ async function addMessage(message, date_time, user_id) {
     await pool.query('INSERT INTO messages (message, sent_at, user_id) VALUES ($1, $2, $3);', [message, date_time, user_id])
 }
 
-async function getAllMessages() {
-    const { rows } = await pool.query('SELECT * FROM messages;')
+async function getAllMessagesWithoutDetails() {
+    const { rows } = await pool.query('SELECT id, message FROM messages;')
+    return rows
+}
+
+async function getAllMessagesWithDetails() {
+    const { rows } = await pool.query('SELECT messages.id, message, sent_at, username FROM messages JOIN users ON users.id = messages.user_id;')
     return rows
 }
 
@@ -37,7 +42,8 @@ module.exports = {
     getUserByUsername,
     getUserById, 
     addMessage,
-    getAllMessages,
+    getAllMessagesWithoutDetails,
+    getAllMessagesWithDetails,
     addRole,
     removeRole
 }
