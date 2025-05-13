@@ -28,11 +28,16 @@ async function addRole(username, role) {
     await pool.query('UPDATE users SET role_id = (SELECT id FROM roles WHERE name = $1) WHERE username = $2;', [role, username])
 }
 
+async function removeRole(username) {
+    await pool.query('UPDATE users SET role_id = NULL WHERE username = $1;', [username])
+}
+
 module.exports = {
     addUser,
     getUserByUsername,
     getUserById, 
     addMessage,
     getAllMessages,
-    addRole
+    addRole,
+    removeRole
 }
