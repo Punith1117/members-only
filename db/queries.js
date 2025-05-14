@@ -25,7 +25,12 @@ async function getAllMessagesWithoutDetails() {
 }
 
 async function getAllMessagesWithDetails() {
-    const { rows } = await pool.query('SELECT messages.id, message, sent_at, username FROM messages JOIN users ON users.id = messages.user_id;')
+    const { rows } = await pool.query('SELECT messages.id, message, sent_at, username FROM messages JOIN users ON users.id = messages.user_id ORDER BY sent_at;')
+    return rows
+}
+
+async function getAllRoles() {
+    const { rows } = await pool.query('SELECT * FROM roles;')
     return rows
 }
 
@@ -44,6 +49,7 @@ module.exports = {
     addMessage,
     getAllMessagesWithoutDetails,
     getAllMessagesWithDetails,
+    getAllRoles,
     addRole,
     removeRole
 }
