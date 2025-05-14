@@ -29,6 +29,10 @@ async function getAllMessagesWithDetails() {
     return rows
 }
 
+async function deleteMessage(id) {
+    await pool.query('DELETE FROM messages WHERE id = $1;', [id])
+}
+
 async function getAllRoles() {
     const { rows } = await pool.query('SELECT * FROM roles;')
     return rows
@@ -49,6 +53,7 @@ module.exports = {
     addMessage,
     getAllMessagesWithoutDetails,
     getAllMessagesWithDetails,
+    deleteMessage,
     getAllRoles,
     addRole,
     removeRole
