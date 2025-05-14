@@ -21,7 +21,7 @@
             <% } %>
             <a href="/log-out">Log out</a>
         </nav>
-        <h1>Hi, <%= username %></h1>
+        <h1>Hi, <%= username %> (<%= locals.role %>)</h1>
         <form action="/send-message" method="post">
             <textarea name="message" placeholder="Type here..."></textarea>
             <button type="submit">Send</button>
