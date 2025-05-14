@@ -49,7 +49,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.post('/send-message', isAuthenticated, async (req, res, next) => {
     try {
-        const date_time = dayjs().utc().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
+        const date_time = dayjs().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
         await db.addMessage(req.body.message, date_time, req.user.id)
         res.redirect('/')
     } catch(err) {
@@ -91,12 +91,35 @@ app.get('/log-in', (req, res) => {
 })
 
 app.get('/', async (req, res) => {
-    const messages = await db.getAllMessages()
-    res.render('index', {
-        isAuthenticated: req.isAuthenticated(),
-        username: req.user?.username,
-        messages: messages
-    })
+    let messages
+    let detailsToSend
+    if (req.isAuthenticated()) {
+        if (req.user.role == null) {
+            detailsToSend = {
+                isAuthenticated: req.isAuthenticated(),
+                username: req.user.username,
+                messages: await db.getAllMessagesWithoutDetails()
+            }
+        } else {
+            messages = await db.getAllMessagesWithDetails()
+            messages = messages.map(message => ({
+                ...message,
+                sent_at: dayjs(message.sent_at).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
+            }))
+            detailsToSend = {
+                username: req.user.username,
+                isAuthenticated: req.isAuthenticated(),
+                messages: messages,
+                role: req.user.role
+            }
+        }
+    } else {
+        detailsToSend = {
+            isAuthenticated: req.isAuthenticated(),
+            messages: await db.getAllMessagesWithoutDetails(),
+        }
+    }
+    res.render('index', detailsToSend)
 })
 
 app.use((err, req, res, next) => {
