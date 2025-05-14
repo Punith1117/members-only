@@ -90,6 +90,25 @@ app.get('/log-in', (req, res) => {
     res.render('log-in')
 })
 
+app.get('/give-up-role', isAuthenticated, async (req, res) => {
+    await db.removeRole(req.user.username)
+    res.redirect('/')
+})
+app.post('/get-role', isAuthenticated, async (req, res) => {
+    if (req.body.role == 'Club member' && req.body.secretKey == process.env.CLUB_MEMBER_SECRET_KEY) {
+        await db.addRole(req.user.username, req.body.role)
+    } else if (req.body.role == 'Admin' && req.body.secretKey == process.env.ADMIN_SECRET_KEY) {
+        await db.addRole(req.user.username, req.body.role)
+    } else {
+        res.send('Invalid secret key')
+    }
+    res.redirect('/')
+})
+app.get('/get-role', isAuthenticated, async (req, res) => {
+    const roles = await db.getAllRoles()
+    res.render('get-role', {roles: roles})
+})
+
 app.get('/', async (req, res) => {
     let messages
     let detailsToSend
