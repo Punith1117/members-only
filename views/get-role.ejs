@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get role</title>
+</head>
+<body>
+    <h1>Get a role</h1>
+    <form action="/get-role" method="post">
+        <select name="role">
+            <% locals.roles.forEach(role => { %>
+                <option value="<%= role.name %>"><%= role.name %></option>
+            <% }) %>
+        </select>
+        <div>
+            <label for="secretKey">Enter Secret Key</label>
+            <input type="password" name="secretKey" id="secretKey">
+        </div>
+        <button type="submit">Get role</button>
+    </form>
+</body>
+</html>
