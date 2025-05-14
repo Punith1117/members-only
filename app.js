@@ -9,7 +9,7 @@ const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
 const db = require('./db/queries')
 const path = require('node:path')
-const { isAuthenticated } = require('./middleware')
+const { isAuthenticated, isAdmin } = require('./middleware')
 
 const app = express()
 dayjs.extend(utc)
@@ -51,6 +51,14 @@ app.post('/send-message', isAuthenticated, async (req, res, next) => {
     try {
         const date_time = dayjs().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
         await db.addMessage(req.body.message, date_time, req.user.id)
+        res.redirect('/')
+    } catch(err) {
+        next(err)
+    }
+})
+app.get('/delete-message/:id', isAdmin, async (req, res, next) => {
+    try {
+        await db.deleteMessage(req.params.id)
         res.redirect('/')
     } catch(err) {
         next(err)
