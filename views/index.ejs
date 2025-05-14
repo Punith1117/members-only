@@ -8,12 +8,17 @@
 <body>
     <% if(isAuthenticated != true) {%>
         <nav>
-            <a href="/log-in">Log in</a>
             <a href="/sign-up">Sign up</a>
+            <a href="/log-in">Log in</a>
         </nav>
         <h1>You are not authenticated</h1>
     <% } else { %> 
         <nav>
+            <%if (locals.role == null) {%>
+                <a href="/get-role">Get a role</a>
+            <%} else { %>
+                <a href="/give-up-role">Give up role</a>
+            <% } %>
             <a href="/log-out">Log out</a>
         </nav>
         <h1>Hi, <%= username %></h1>
@@ -28,9 +33,12 @@
                 <%= message.message %>
             </li>
             <div>
-                <p>YYYY-MM-DD HH:mm:ss</p>
-                <p>username</p>
+                <p><%= (locals.role != null) ? (message.sent_at) : 'YYYY-MM-DD HH:mm:ss' %></p>
+                <p><%= (locals.role != null) ? (message.username) : 'username'%></p>
             </div>
+            <% if (locals.role == 'Admin') {%>
+                <a href="/delete-message/<%=message.id%>">delete</a>
+            <% } %>
         <% }) %>
     </ul>
 </body>
