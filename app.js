@@ -9,6 +9,7 @@ const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
 const db = require('./db/queries')
 const path = require('node:path')
+const { body, validationResult, matchedData } = require('express-validator')
 const { isAuthenticated, isAdmin } = require('./middleware')
 
 const app = express()
@@ -74,14 +75,39 @@ app.get('/log-out', (req, res, next) => {
     })
 })
 
-app.post('/sign-up', async (req, res, next) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        await db.addUser(req.body.username, hashedPassword)
-        res.redirect('/log-in')
-    } catch(err) {
-        console.log(err)
-        next(err)
+app.post('/sign-up',
+    body('username')
+        .trim()
+        .notEmpty()
+        .withMessage('Username cannot not be empty')
+        .custom(async value => {
+            const user = await db.getUserByUsername(value)
+            if (user !== undefined) 
+                throw new Error('User already exists. Choose a different username')
+            else 
+                return true
+        }),
+    body('password').trim().notEmpty().withMessage('Password cannot be empty'),
+    body('confirmPassword').trim().custom((value, {req}) => {
+        if (value === req.body.password) 
+            return true
+        else 
+            throw new Error('Passwords do not match')
+    }),
+    async (req, res, next) => {
+    const result = validationResult(req)
+    if (result.isEmpty()) {
+        try {
+            const data = matchedData(req)
+            const hashedPassword = await bcrypt.hash(data.password, 10)
+            await db.addUser(data.username, hashedPassword)
+            res.redirect('/log-in')
+        } catch(err) {
+            console.log(err)
+            next(err)
+        }
+    } else {
+        res.render('sign-up', { errors: result.array() })
     }
 })
 
