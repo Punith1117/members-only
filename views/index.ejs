@@ -13,7 +13,7 @@
                 <a href="/sign-up">Sign up</a>
                 <a href="/log-in">Log in</a>
             </nav>
-            <h1>You are not authenticated</h1>
+            <h1>Login to send message</h1>
         <% } else { %> 
             <nav>
                 <%if (locals.role == null) {%>
@@ -36,7 +36,7 @@
                         <%= message.message %>
                     </div>
                     <p><%= (locals.role != null) ? (message.sent_at) : 'YYYY-MM-DD HH:mm:ss' %></p>
-                    <p><%= (locals.role != null) ? (message.username) : 'username'%></p>
+                    <p>~<%= (locals.role != null) ? (message.username) : 'username'%></p>
                     <% if (locals.role == 'Admin') {%>
                         <a href="/delete-message/<%=message.id%>" class="delete">delete</a>
                     <% } %>
