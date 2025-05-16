@@ -3,43 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/index.css">
     <title>Index</title>
 </head>
 <body>
-    <% if(isAuthenticated != true) {%>
-        <nav>
-            <a href="/sign-up">Sign up</a>
-            <a href="/log-in">Log in</a>
-        </nav>
-        <h1>You are not authenticated</h1>
-    <% } else { %> 
-        <nav>
-            <%if (locals.role == null) {%>
-                <a href="/get-role">Get a role</a>
-            <%} else { %>
-                <a href="/give-up-role">Give up role</a>
-            <% } %>
-            <a href="/log-out">Log out</a>
-        </nav>
-        <h1>Hi, <%= username %> (<%= locals.role %>)</h1>
-        <form action="/send-message" method="post">
-            <textarea name="message" placeholder="Type here..."></textarea>
-            <button type="submit">Send</button>
-        </form>
-    <% } %>
-    <ul>
-        <% locals.messages.forEach(message => { %>
-            <li>
-                <%= message.message %>
-            </li>
-            <div>
-                <p><%= (locals.role != null) ? (message.sent_at) : 'YYYY-MM-DD HH:mm:ss' %></p>
-                <p><%= (locals.role != null) ? (message.username) : 'username'%></p>
-            </div>
-            <% if (locals.role == 'Admin') {%>
-                <a href="/delete-message/<%=message.id%>">delete</a>
-            <% } %>
-        <% }) %>
-    </ul>
+    <div class="container">
+        <% if(isAuthenticated != true) {%>
+            <nav>
+                <a href="/sign-up">Sign up</a>
+                <a href="/log-in">Log in</a>
+            </nav>
+            <h1>You are not authenticated</h1>
+        <% } else { %> 
+            <nav>
+                <%if (locals.role == null) {%>
+                    <a href="/get-role">Get a role</a>
+                <%} else { %>
+                    <a href="/give-up-role">Give up role</a>
+                <% } %>
+                <a href="/log-out">Log out</a>
+            </nav>
+            <h1>Hi, <%= username %> (<%= locals.role %>)</h1>
+            <form action="/send-message" method="post" class="send-message">
+                <textarea name="message" placeholder="Type here..."></textarea>
+                <button type="submit">Send</button>
+            </form>
+        <% } %>
+        <ul>
+            <% locals.messages.forEach(message => { %>
+                <li class="<%= isAuthenticated ? ((message.username == username) ? 'user-message' : '') : ''%>">
+                    <div class="message-text">
+                        <%= message.message %>
+                    </div>
+                    <p><%= (locals.role != null) ? (message.sent_at) : 'YYYY-MM-DD HH:mm:ss' %></p>
+                    <p><%= (locals.role != null) ? (message.username) : 'username'%></p>
+                    <% if (locals.role == 'Admin') {%>
+                        <a href="/delete-message/<%=message.id%>" class="delete">delete</a>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+    <script>
+        window.onload = () => {
+            const div = document.querySelector('ul')
+            div.scrollTop = div.scrollHeight
+        }
+    </script>
 </body>
 </html>
