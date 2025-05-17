@@ -18,7 +18,7 @@ body {
 
 .container {
     width: 50vw;
-    min-height: calc(100vh - 1rem);
+    height: calc(100vh - 1rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,6 +54,7 @@ nav {
 h1 {
     position: absolute;
     top: 10%;
+    font-size: max(2vw, 1.4rem);
 }
 
 .send-message {
