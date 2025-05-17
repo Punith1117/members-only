@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/sign-up-login-role.css">
     <title>Sign up</title>
 </head>
 <body>
-    <ul>
-        <% if (locals.errors != undefined) { %>
-            <% errors.forEach(error => { %>
-            <li><%= error.msg %></li>
-        <% }) %>
-        <% } %>
-    </ul>
-    <form action="/sign-up" method="POST">
-        <label>
-            Username: 
-            <input type="text" name="username" required>
-        </label>
-        <label>
-            Password:
-            <input type="password" name="password" required>
-        </label>
-        <label>
-            Confirm Password:
-            <input type="password" name="confirmPassword" required>
-        </label>
-        <button type="submit">Sign up</button>
-    </form>
+    <div class="container">
+        <main>
+            <h1>Sign up</h1>
+            <ul class="errors">
+                <% if (locals.errors != undefined) { %>
+                    <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+                <% } %>
+            </ul>
+            <form action="/sign-up" method="POST">
+                <label>
+                    Username: 
+                    <input type="text" name="username" required>
+                </label>
+                <label>
+                    Password:
+                    <input type="password" name="password" required>
+                </label>
+                <label>
+                    Confirm Password:
+                    <input type="password" name="confirmPassword" required>
+                </label>
+                <button type="submit">Sign up</button>
+            </form>
+        </main>
+    </div>
 </body>
 </html>

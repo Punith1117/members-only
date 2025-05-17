@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/sign-up-login-role.css">
     <title>Log in</title>
 </head>
 <body>
-    <form action="/log-in" method="POST">
-        <label>
-            Username: 
-            <input type="text" name="username" required>
-        </label>
-        <label>
-            Password:
-            <input type="password" name="password" required>
-        </label>
-        <button type="submit">Log in</button>
-    </form>
+    <div class="container">
+        <main>
+            <h1>Login</h1>
+            <form action="/log-in" method="POST">
+                <label>
+                    Username: 
+                    <input type="text" name="username" required>
+                </label>
+                <label>
+                    Password:
+                    <input type="password" name="password" required>
+                </label>
+                <button type="submit">Log in</button>
+            </form>
+        </main>
+    </div>
 </body>
 </html>
