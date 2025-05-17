@@ -108,6 +108,7 @@ ul {
         align-items: center;
         border-radius: 0rem 1rem 1rem 1rem;
         width: 70%;
+        padding: 5px;
 
         * {
             display: flex;
@@ -151,5 +152,38 @@ ul {
         margin-left: auto;
         border-radius: 1rem 1rem 0rem 1rem;
         background-color: rgb(208, 221, 89);
+    }
+}
+
+@media (max-width: 950px) {
+    .container {
+        width: 100vw;
+        height: calc(100vh - 10px);
+        margin: 0.7vw;
+        padding: 0.7vw;
+    }
+
+    ul {
+        width: 95%;
+    }
+
+    ul li {
+        grid-template-rows: 2fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .message-text {
+            grid-area: 1 / 1 / 2 / 4;
+        }
+        
+        p:first-of-type {
+            grid-area: 2 / 1 / 3 / 3;
+        }
+        
+        p {
+            grid-area: 2 / 3 / 3 / 4;
+        }
+    }
+    .send-message {
+        width: 90%;
     }
 }
