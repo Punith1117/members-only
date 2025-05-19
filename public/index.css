@@ -203,11 +203,11 @@ ul {
     background-color: rgba(255, 255, 255, 0.822);
     h2 {
         color: rgb(255, 19, 19);
-        font-size: max(1.2rem, 1.5vw);
+        font-size: max(1.1rem, 1.5vw);
     }
 
     a {
-        font-size: max(1rem, 1vw);
+        font-size: max(0.8rem, 1vw);
         color: rgb(16, 87, 219);
         text-underline-offset: 3px;
     }
